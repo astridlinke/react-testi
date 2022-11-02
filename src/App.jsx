@@ -1,43 +1,48 @@
-import { useState } from 'react'
-import logo from './logo.svg'
+import React, { useState, useEffect } from 'react'
+import Pais from './Pais/Pais'
+import PokemoniInfo from "./PokemoniInfo"
+import PokemonideList from "./PokemonideList"
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+
+function App() { 
+  const [valitudPokemon, setValitudPokemon]=useState()
+  const [pokemonid, setPokemonid] = useState ([])
+  const [eelmineUrl, setEelmineUrl]= useState(null)
+  const [jargmineUrl, setJargmineUrl] =useState (null)
+
+
+  useEffect(() => {
+    pariPokemonid('https://pokeapi.co/api/v2/pokemon/')
+  }, [])
+  
+  const pariPokemonid = async (url) => {
+    const laetudPokemonid = await (await fetch (url)).json()    
+    setPokemonid (laetudPokemonid.results)
+    setEelmineUrl(laetudPokemonid.previous)
+    setJargmineUrl(laetudPokemonid.next)
+  }
+   
+  const pariPokemoniInfo = async (url) => {
+    if (!url) return 
+    const pokemoniInfo = await (await fetch(url)).json()
+    setValitudPokemon(pokemoniInfo)
+  }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Astrid!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <Pais/>      
+      <a onClick={() => {setValitudPokemon(undefined) }}><button type= "kustuta">Kustuta valitud pokemon</button></a>
+      <br/>
+      <br/>
+      {valitudPokemon ? <PokemoniInfo pokemon = {valitudPokemon}/>:
+      <PokemonideList pokemonid ={pokemonid} pariPokemoniInfo={pariPokemoniInfo} />}
+      <div>
+        <span onClick= {()=> { pariPokemonid(eelmineUrl) }}><button type= "kustuta">{'<'} Eelmine leht</button></span>
+        <span> </span>
+        <span onClick= {()=> { pariPokemonid(jargmineUrl) }}><button type= "kustuta">Järgmine leht{'>'}</button></span>
+      </div>
+    
     </div>
   )
 }

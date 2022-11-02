@@ -1,0 +1,39 @@
+.pokemonikaart{
+    background-color: lightblue;   
+    display:flex;
+    margin: 2px 20px 20px 0px;
+    height: 200px;
+    width: 400px;
+    border-radius: 10px;
+    border-style:double;
+}
+
+.pilt{
+    height: 140px;
+   
+}
+
+ 
+.ID{
+    color:blue;
+    margin-top: 30px;
+    font:300;
+    font-size: 20px;
+   
+}
+
+.nimi{
+    font:900;
+    font-size: 30px;
+    color:blue;
+    margin-bottom:20px;
+    text-transform: capitalize;
+
+  
+}
+
+.kaal,.kõrgus{
+font-size: 20px;
+color:darkred;
+font:400;
+}
